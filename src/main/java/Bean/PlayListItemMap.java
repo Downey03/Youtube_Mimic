@@ -8,20 +8,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class PlayList {
+@Entity
+public class PlayListItemMap {
     @Id
+    String playListItemMapId;
+    @Index
     String playListId;
     @Index
-    String playListName;
+    String videoTitle;
     @Index
-    String userId;
-
+    String videoLink;
+    @Index
+    String videoThumbnail;
 
 }

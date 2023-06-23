@@ -36,10 +36,10 @@
                                                 <label for="login-email">E-mail</label>
                                             </td>
                                             <td>
-                                                <input type="email"  required id="login-email" name="userEmail" >
+                                                <input type="email" onkeyup="validate()"  required id="login-email" name="userEmail" >
                                             </td>
                                             <td rowspan="2">
-                                                <input type="submit" onkeyup="validate()" id="login-submit" onclick="functions.login()" />
+                                                <input type="submit"  disabled id="login-submit" onclick="functions.login()" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -47,7 +47,7 @@
                                                 <label for="password">password</label>
                                             </td>
                                             <td>
-                                                <input type="password" required  id="login-pass" name="password">
+                                                <input type="password" onkeyup="validate()" required  id="login-pass" name="password">
                                             </td>
                                         </tr>
                                     </table>
@@ -96,6 +96,7 @@
                     <main class="main-content">
                         <div class="container" id="container">
                             
+                            <div id="result-content"></div>
                             <table id="result-table">
                                 
                             </table>

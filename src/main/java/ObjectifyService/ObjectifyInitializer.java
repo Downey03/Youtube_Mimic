@@ -1,6 +1,7 @@
 package ObjectifyService;
 
 import Bean.PlayList;
+import Bean.PlayListItemMap;
 import Bean.User;
 import Bean.YTLink;
 import com.googlecode.objectify.Objectify;
@@ -22,6 +23,7 @@ public class ObjectifyInitializer implements ServletContextListener {
         ObjectifyService.register(User.class);
         ObjectifyService.register(PlayList.class);
         ObjectifyService.register(YTLink.class);
+        ObjectifyService.register(PlayListItemMap.class);
     }
 
 

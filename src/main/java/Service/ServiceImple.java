@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.List;
 
 public class ServiceImple implements ServiceInterface{
 
@@ -25,8 +24,8 @@ public class ServiceImple implements ServiceInterface{
     @Override
     public void getVideos(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-
         String jsonString = Utils.getRequestString(req);
+        System.out.println(jsonString);
         SearchDTO searchDto = gson.fromJson(new StringReader(jsonString), SearchDTO.class);
 
         PlayListDTO playListDTO;
@@ -36,7 +35,7 @@ public class ServiceImple implements ServiceInterface{
             playListDTO = daoInstance.getVideos();
         }
 
-        if(playListDTO.ytLinks.size()==0){
+        if(playListDTO.ytLinks == null || playListDTO.ytLinks.size()==0){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);//404
         }else{
             resp.setStatus(HttpServletResponse.SC_FOUND);//302
@@ -54,14 +53,16 @@ public class ServiceImple implements ServiceInterface{
     public void createUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String jsonString = Utils.getRequestString(req);
+        System.out.println(jsonString);
         UserDTO userDTO  = new Gson().fromJson(new StringReader(jsonString), UserDTO.class);
+        userDTO.setPassword(Utils.passwordEncrypt(userDTO.getPassword()));
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         try{
             String userId = daoInstance.createUser(userDTO);
-            String jwtToken = JwtUtil.generateToken(userId,userDTO.getUserEmail());
+            String jwtToken = JwtUtil.generateToken(userId);
             resp.setStatus(HttpServletResponse.SC_CREATED);//201
             out.print(gson.toJson(jwtToken));
             out.flush();
@@ -78,13 +79,14 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         UserDTO userDTO = gson.fromJson(new StringReader(reqString), UserDTO.class);
+        userDTO.setPassword(Utils.passwordEncrypt(userDTO.getPassword()));
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         try{
             String userId = daoInstance.validateLogin(userDTO);
-            String jwtToken = JwtUtil.generateToken(userId,userDTO.getUserEmail());
+            String jwtToken = JwtUtil.generateToken(userId);
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);//202
             out.print(gson.toJson(jwtToken));
             out.flush();
@@ -100,7 +102,7 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         PlayListDTO playListDTO = gson.fromJson(new StringReader(reqString),PlayListDTO.class);
-        playListDTO.userEmail = Utils.getEmail(req);
+        playListDTO.userId = Utils.getUserId(req);
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
@@ -122,23 +124,27 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         PlayListDTO playListDTO = gson.fromJson(new StringReader(reqString),PlayListDTO.class);
-        playListDTO.userEmail = Utils.getEmail(req);
+        playListDTO.userId = Utils.getUserId(req);
 
-        daoInstance.deletePlayList(playListDTO);
+        playListDTO = daoInstance.deletePlayList(playListDTO);
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         resp.setStatus(HttpServletResponse.SC_OK);
+        out.print(gson.toJson(playListDTO.playLists));
+        out.flush();
 
     }
 
     @Override
     public void getPlayLists(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        PlayListDTO playListDTO = new PlayListDTO();
+        playListDTO.userId = Utils.getUserId(req);
+        playListDTO = daoInstance.getPlayLists(playListDTO);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
-        PlayListDTO playListDTO = new PlayListDTO();
-
-        playListDTO.userEmail = Utils.getEmail(req);
-        playListDTO = daoInstance.getPlayLists(playListDTO);
         resp.setStatus(HttpServletResponse.SC_OK);
         out.print(gson.toJson(playListDTO.playLists));
         out.flush();
@@ -152,7 +158,7 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         PlayListDTO playListDTO = gson.fromJson(new StringReader(reqString), PlayListDTO.class);
-        playListDTO.userEmail = Utils.getEmail(req);
+        playListDTO.userId = Utils.getUserId(req);
 
         playListDTO = daoInstance.getPlayListItem(playListDTO);
         PrintWriter out = resp.getWriter();
@@ -169,7 +175,8 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         PlayListDTO playListDTO = gson.fromJson(new StringReader(reqString), PlayListDTO.class);
-        playListDTO.userEmail = Utils.getEmail(req);
+        playListDTO.userId = Utils.getUserId(req);
+
         playListDTO = daoInstance.addItemToPlayList(playListDTO);
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(playListDTO.ytLinks));
@@ -182,7 +189,8 @@ public class ServiceImple implements ServiceInterface{
 
         String reqString = Utils.getRequestString(req);
         PlayListDTO playListDTO = gson.fromJson(new StringReader(reqString), PlayListDTO.class);
-        playListDTO.userEmail = Utils.getEmail(req);
+        playListDTO.userId = Utils.getUserId(req);
+
         playListDTO = daoInstance.removeItemFromPlayList(playListDTO);
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(playListDTO.ytLinks));

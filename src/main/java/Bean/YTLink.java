@@ -15,9 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class YTLink {
     @Id
-    String id;
+    String videoId;
     @Index
-    String title;
+    String videoTitle;
     @Index
-    String link;
+    String videoLink;
+    @Index
+    String videoThumbnail;
 }

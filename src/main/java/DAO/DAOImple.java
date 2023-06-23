@@ -1,6 +1,7 @@
 package DAO;
 
 import Bean.PlayList;
+import Bean.PlayListItemMap;
 import Bean.User;
 import Bean.YTLink;
 import DTO.PlayListDTO;
@@ -8,6 +9,7 @@ import DTO.UserDTO;
 import ObjectifyService.ObjectifyInitializer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,11 +19,10 @@ public class DAOImple implements DAOInterface{
 
         List<YTLink> ytLinkList = ObjectifyInitializer.ofy().load().type(YTLink.class).list();
 
-        ytLinkList.removeIf(video -> !video.getTitle().toLowerCase().contains(searchKeyword.trim().toLowerCase()));
-
         PlayListDTO playListDTO = new PlayListDTO();
-        playListDTO.ytLinks = ytLinkList;
+        ytLinkList.removeIf(video -> video.getVideoTitle() == null || !video.getVideoTitle().toLowerCase().contains(searchKeyword.trim().toLowerCase()));
 
+        playListDTO.ytLinks = ytLinkList;
         return playListDTO;
     }
 
@@ -46,16 +47,15 @@ public class DAOImple implements DAOInterface{
         if(user != null) throw new Exception("User Already Found");
 
         user = User.builder()
-                .id(UUID.randomUUID().toString())
-                .name(userDTO.getName())
+                .userId(UUID.randomUUID().toString())
+                .userName(userDTO.getUserName())
                 .userEmail(userEmail)
                 .password(userDTO.getPassword())
-                .playLists(new ArrayList<>())
                 .build();
 
         ObjectifyInitializer.ofy().save().entity(user).now();
 
-        return user.getId();
+        return user.getUserId();
     }
 
     @Override
@@ -66,38 +66,31 @@ public class DAOImple implements DAOInterface{
         if(user == null) throw new Exception("Invalid Email");
         if(!user.getPassword().equals(userDTO.getPassword())) throw new Exception("Invalid Password");
 
-        return user.getId();
+        return user.getUserId();
     }
 
     @Override
     public PlayListDTO createPlayList(PlayListDTO playListDTO) throws Exception {
 
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
         String playListName = playListDTO.playListName;
 
-        User user = ObjectifyInitializer.ofy().load().type(User.class).filter("userEmail",userEmail).first().now();
+        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
+                .filter("playListName",playListName).filter("userId",userId)
+                        .first().now();
 
-        List<String> playLists = user.getPlayLists();
-        playListName = playListName.trim();
+        if(playList != null) throw  new Exception("PlayList Already Found");
 
-        if(playLists == null) playLists = new ArrayList<>();
-        if(playLists.contains(playListName)) throw new Exception("PlayList Already Found");
-
-        playLists.add(playListName);
-        user.setPlayLists(playLists);
-
-        PlayList playList = PlayList.builder()
-                .id(playListName+userEmail)
+        playList = PlayList.builder()
+                .playListId(UUID.randomUUID().toString())
                 .playListName(playListName)
-                .userEmail(user.getUserEmail())
-                .videoList(new ArrayList<>())
+                .userId(userId)
                 .build();
 
         ObjectifyInitializer.ofy().save().entity(playList);
-        ObjectifyInitializer.ofy().save().entity(user);
 
-        playListDTO.playLists = playLists;
-        return playListDTO;
+        return getPlayLists(playListDTO);
+
     }
 
 
@@ -105,43 +98,85 @@ public class DAOImple implements DAOInterface{
     @Override
     public PlayListDTO getPlayLists(PlayListDTO playListDTO) {
 
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
 
-        User user = ObjectifyInitializer.ofy().load().type(User.class).filter("userEmail",userEmail).first().now();
+        List<PlayList> playLists = ObjectifyInitializer.ofy().load().type(PlayList.class).filter("userId",userId).list();
 
-        if(user.getPlayLists() == null) user.setPlayLists(new ArrayList<>());
-        List<String> playLists = new ArrayList<>(user.getPlayLists());
+        playListDTO.playLists = new ArrayList<>();
+        for(PlayList name : playLists)
+            playListDTO.playLists.add(name.getPlayListName());
 
-        playListDTO.playLists  = playLists;
         return playListDTO;
     }
 
     @Override
-    public void deletePlayList(PlayListDTO playListDTO) {
+    public PlayListDTO deletePlayList(PlayListDTO playListDTO) {
 
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
         String playListName = playListDTO.playListName;
+        System.out.println(playListName);
 
-        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class).id(playListName+userEmail).now();
-        User user = ObjectifyInitializer.ofy().load().type(User.class).filter("userEmail",userEmail).first().now();
+        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
+                .filter("userId",userId).filter("playListName",playListName)
+                .first().now();
 
-        List<String> playLists = user.getPlayLists();
-        playLists.remove(playListName);
 
-        ObjectifyInitializer.ofy().delete().entity(playList).now();
-        ObjectifyInitializer.ofy().save().entity(user).now();
+
+        ObjectifyInitializer.ofy().delete().type(PlayList.class).id(playList.getPlayListId()).now();
+
+        List<PlayListItemMap> playListItemMaps = ObjectifyInitializer.ofy().load().type(PlayListItemMap.class).list();
+
+//        playListItemMaps.parallelStream().map(item -> ObjectifyInitializer.ofy().delete().entity(item));
+
+        for(PlayListItemMap item : playListItemMaps){
+            ObjectifyInitializer.ofy().delete().entity(item);
+        }
+
+        return getPlayLists(playListDTO);
+    }
+
+    public PlayListDTO getPlayListItem(PlayListDTO playListDTO,PlayList playList){
+
+        List<PlayListItemMap> playListItemMaps = ObjectifyInitializer.ofy().load().type(PlayListItemMap.class)
+                .filter("playListId",playList.getPlayListId()).list();
+
+        playListDTO.ytLinks = new ArrayList<>();
+
+        for(PlayListItemMap item : playListItemMaps){
+            YTLink ytLink = new YTLink();
+            ytLink.setVideoLink(item.getVideoLink());
+            ytLink.setVideoTitle(item.getVideoTitle());
+            ytLink.setVideoThumbnail(item.getVideoThumbnail());
+            playListDTO.ytLinks.add(ytLink);
+        }
+
+        return playListDTO;
     }
 
     @Override
     public PlayListDTO getPlayListItem(PlayListDTO playListDTO) {
 
         String playListName = playListDTO.playListName;
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
 
-        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class).id(playListName+userEmail).now();
+        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
+                .filter("playListName",playListName).filter("userId",userId)
+                .first().now();
 
-        if(playList.getVideoList() == null) playListDTO.ytLinks = new ArrayList<>();
-        else playListDTO.ytLinks = new ArrayList<>(playList.getVideoList());
+        List<PlayListItemMap> playListItemMaps = ObjectifyInitializer.ofy().load().type(PlayListItemMap.class)
+                .filter("playListId",playList.getPlayListId()).list();
+
+        System.out.println(Arrays.toString(playListItemMaps.toArray()));
+
+        playListDTO.ytLinks = new ArrayList<>();
+
+        for(PlayListItemMap item : playListItemMaps){
+            YTLink ytLink = new YTLink();
+            ytLink.setVideoLink(item.getVideoLink());
+            ytLink.setVideoTitle(item.getVideoTitle());
+            ytLink.setVideoThumbnail(item.getVideoThumbnail());
+            playListDTO.ytLinks.add(ytLink);
+        }
 
         return playListDTO;
     }
@@ -149,43 +184,53 @@ public class DAOImple implements DAOInterface{
     @Override
     public PlayListDTO addItemToPlayList(PlayListDTO playListDTO) {
 
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
         String playListName = playListDTO.playListName;
         String videoTitle = playListDTO.videoTitle;
 
-        YTLink ytLink = ObjectifyInitializer.ofy().load().type(YTLink.class).id(videoTitle).now();
+        YTLink ytLink = ObjectifyInitializer.ofy().load().type(YTLink.class)
+                .filter("videoTitle",videoTitle)
+                .first().now();
 
-        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class).id(playListName+userEmail).now();
-        List<YTLink> playListItems = playList.getVideoList();
-        if(playListItems == null) playListItems = new ArrayList<>();
+        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
+                .filter("playListName",playListName).filter("userId",userId)
+                .first().now();
 
-        playListItems.add(ytLink);
-        playList.setVideoList(playListItems);
+        PlayListItemMap playListItemMap = PlayListItemMap.builder()
+                .playListItemMapId(UUID.randomUUID().toString())
+                .playListId(playList.getPlayListId())
+                .videoLink(ytLink.getVideoLink())
+                .videoTitle(ytLink.getVideoTitle())
+                .videoThumbnail(ytLink.getVideoThumbnail())
+                .build();
 
-        ObjectifyInitializer.ofy().save().entity(playList);
+        ObjectifyInitializer.ofy().save().entity(playListItemMap).now();
 
-        playListDTO.ytLinks = playListItems;
-        return playListDTO;
+        return getPlayListItem(playListDTO,playList);
+
     }
 
     @Override
     public PlayListDTO removeItemFromPlayList(PlayListDTO playListDTO) {
 
-        String userEmail = playListDTO.userEmail;
+        String userId = playListDTO.userId;
         String playListName = playListDTO.playListName;
         String videoTitle = playListDTO.videoTitle;
 
-        YTLink ytLink = ObjectifyInitializer.ofy().load().type(YTLink.class).id(videoTitle).now();
+        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
+                .filter("playListName",playListName).filter("userId",userId)
+                .first().now();
 
-        PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class).id(playListName+userEmail).now();
-        List<YTLink> playListItems = playList.getVideoList();
+        System.out.println(playList.toString());
 
-        playListItems.remove(ytLink);
-        playList.setVideoList(playListItems);
+        PlayListItemMap playListItemMap = ObjectifyInitializer.ofy().load().type(PlayListItemMap.class)
+                        .filter("playListId",playList.getPlayListId()).filter("videoTitle",videoTitle)
+                        .first().now();
 
-        ObjectifyInitializer.ofy().save().entity(playList);
+        System.out.println(playListItemMap.toString());
 
-        playListDTO.ytLinks = playListItems;
-        return playListDTO;
+        ObjectifyInitializer.ofy().delete().entity(playListItemMap);
+
+        return getPlayListItem(playListDTO);
     }
 }

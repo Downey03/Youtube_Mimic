@@ -27,5 +27,5 @@ public interface DAOInterface {
 
     PlayListDTO removeItemFromPlayList(PlayListDTO playListDTO);
 
-    void deletePlayList(PlayListDTO playListDTO);
+    PlayListDTO deletePlayList(PlayListDTO playListDTO);
 }

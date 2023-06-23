@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "LoginController",urlPatterns = {"/home/LoginController"})
+@WebServlet(name = "LoginController",urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
 
     ServiceInterface serviceInstance = new ServiceImple();

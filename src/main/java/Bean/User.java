@@ -19,15 +19,13 @@ import java.util.List;
 public class User{
 
     @Id
-    String id;
+    String userId;
     @Index
     String userEmail;
     @Index
-    String name;
+    String userName;
     @Index
     String password;
 
-    @Index
-    List<String> playLists;
 
 }

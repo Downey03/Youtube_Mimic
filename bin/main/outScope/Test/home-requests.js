@@ -4,6 +4,8 @@ let sessionId ;
 let searchElement = document.getElementById("searchKeyword") 
 let playLists = document.getElementById("playlists")
 let jwtToken = localStorage.getItem('jwtToken')
+let userPlayLists = [];
+
 
 console.clear()
 
@@ -40,19 +42,36 @@ async function getVideoContent(){
 }
 
 function writeNotFound(){
-    let table = document.getElementById("result-table")
-    let writeData = "<tr><td>No Video Found</td></tr>"
+    let table = document.getElementById("result-content")
+    let writeData = "<h3>No Video Found</h3>"
     table.innerHTML = writeData
 }
 
+
 function writeVideoContentDocument(data){
-    let table = document.getElementById("result-table")
-    let writeData ="";
-    for(let x in data){
-        writeData = writeData+`<tr><td><a target="_blank" href="${data[x].link}">${data[x].title}</a></td></tr>`;
+    let result = document.getElementById("result-content")
+
+    let write="";
+
+    for(x in data){
+        write = write+` 
+        <a href="${data[x].videoLink}">
+          <img src="${data[x].videoThumbnail}">
+          ${data[x].videoTitle}
+        </a> `
     }
-    table.innerHTML=writeData;
+
+    result.innerHTML = write;
 }
+
+// function writeVideoContentDocument(data){
+//     let table = document.getElementById("result-table")
+//     let writeData ="";
+//     for(let x in data){
+//         writeData = writeData+`<tr><td><a target="_blank" href="${data[x].VideoLink}">${data[x].videoTitle}</a></td></tr>`;
+//     }
+//     table.innerHTML=writeData;
+// }
 
 //////// functions for playlist/////
 
@@ -60,10 +79,10 @@ function writeVideoContentDocument(data){
 function writePlayListsDocument(data){
 
     let playListsContent = document.getElementById("playlists")
-
+    userPlayLists = data;
     let write = "";
-    console.log(data)
     for(x in data){
+
         write = write+`<button id="${data[x]}"  type="button" data-bs-toggle="modal" data-bs-target="#playlist-content-modal">${data[x]}</button>`
     }
 
@@ -158,7 +177,9 @@ async function getPlayListContent(id){
     writePlayListContent(id,response)
 }
 
+
 function writePlayListContent(id,data){
+    currentPlayList = [];
     let element = document.getElementById("modal-content")
     console.log("this is dta",data)
     let write = "";
@@ -174,15 +195,51 @@ function writePlayListContent(id,data){
     <div class="modal-body playlist-content-modal" >`;
     
         for(x in data){
-            write = write+`<div >
-            <button ><a href="${data[x].link}">${data[x].title}</a></button>
-            <i id="deleteVideo" onclick="deleteItemFromPlayList('${data[x].title}')" class="fa fa-circle-xmark "></i>
+            currentPlayList.push(data[x].videoTitle)
+            write = write+`<div>
+            <a href="${data[x].videoLink}">
+              <div>
+                <img src="${data[x].videoThumbnail}" >
+                ${data[x].videoTitle}
+              </div>
+            </a>
+            <i id="deleteVideo" onclick="deleteItemFromPlayList('${data[x].videoTitle}')" class="fa fa-circle-xmark "></i>
           </div>`
         }
     write = write+"</div>"    
     element.innerHTML = write;
 
 }
+
+
+
+// function writePlayListContent(id,data){
+//     currentPlayList = [];
+//     let element = document.getElementById("modal-content")
+//     console.log("this is dta",data)
+//     let write = "";
+//     write = write+`<div class="videoSearch">
+//     <button id="delete-playlist" onclick="deletePlayList()">
+//     <input type="hidden" id="playListName" value='${id}'>Delete Playlist</button>
+//     <input type="text" onkeyup="checkSearchSongLength()" id="video-search">
+//     <button class="search-btn"  id="search-video">search</button>
+//     </div>
+//     <div id="results">
+        
+//     </div>
+//     <div class="modal-body playlist-content-modal" >`;
+    
+//         for(x in data){
+//             currentPlayList.push(data[x].videoTitle)
+//             write = write+`<div >
+//             <button ><a href="${data[x].videoLink}">${data[x].videoTitle}</a></button>
+//             <i id="deleteVideo" onclick="deleteItemFromPlayList('${data[x].videoTitle}')" class="fa fa-circle-xmark "></i>
+//           </div>`
+//         }
+//     write = write+"</div>"    
+//     element.innerHTML = write;
+
+// }
 
 //// functions to search song and add to playlist ////
 
@@ -228,11 +285,10 @@ function writeSearchSongInPlayList(data){
     let write = "";
 
     for(x in data){
-        let value = `${data[x].title}`
+        let value = `${data[x].videoTitle}`;
+        value = value.toString()
         console.log(value)
-        write = write+`<div>
-        <button onclick="addItemToPlaylist('${value}')" id="addSong" value=${data[x].title} >${data[x].title}</button>
-        </div>`
+        write = write+`<div><button onclick='addItemToPlaylist(\"${value}\")'  value='${value}' >${value}</button></div>`
     }
     writeElement.innerHTML = write;
 
@@ -240,6 +296,7 @@ function writeSearchSongInPlayList(data){
 
 async function addItemToPlaylist(videoTitle){
 
+    console.log("add called",videoTitle)
     let playListName = document.getElementById("playListName").value
     
     let response = await fetch(`${url}AddItemToPlayList`,{

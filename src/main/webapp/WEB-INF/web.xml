@@ -7,13 +7,16 @@
         <welcome-file>welcome.html</welcome-file>
     </welcome-file-list>
 
-<!--    <fiter>-->
+<!--    <filter>-->
 <!--        <filter-name>JwtFilter</filter-name>-->
 <!--        <filter-class>Filters.JwtFilter</filter-class>-->
-<!--    </fiter>-->
+<!--    </filter>-->
 
 <!--    <filter-mapping>-->
 <!--        <filter-name>JwtFilter</filter-name>-->
+<!--&lt;!&ndash;        <url-pattern>/GetPlayLists</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>/GetPlayLists</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>GetPlayListItems</servlet-name>&ndash;&gt;-->
 <!--    </filter-mapping>-->
 
 
