@@ -31,7 +31,7 @@ const writeFunctions = {
         
         for(x in playLists) {
 
-            writeData = writeData+`<div><a onclick="changeCurrentPlayList('${playLists[x]}')" href="${url}playlist.html">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
+            writeData = writeData+`<div><a href="${url}playlist.html">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
             // writeData = writeData+`<button><div><a href="${url}playlist.html">${playLists[x]}</a></p><i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div></button>`
         }
         writeDocument.innerHTML = writeData
@@ -193,7 +193,7 @@ const requests = {
 
     getPlayListVideo : async function(){
 
-        let searchKeyword = document.getElementById("playlist-video-search-input").value
+        let searchKeyword = document.getElementById("home-video-search-input").value
         let response = await fetch(`${url}SearchController`,{
             headers: { "Content-Type": "application/json",
             "Authorization" : `Bearer ${jwtToken}`
@@ -206,7 +206,7 @@ const requests = {
         }).then(res => res.json())
 
         playListSearchResults = response
-
+        writeFunctions.writePlayListVideo(response)
         writeFunctions.writePlayListVideo(response)
     },
     addItemToPlayList : async function(videoTitle){
@@ -282,6 +282,15 @@ const requests = {
     
 }
 
-requests.getHomeVideo()
+
+const playListRequests = {
+
+    getPlayListItems : {
+
+       
+    }
+}
+
+// requests.getHomeVideo()
 requests.getPlayLists()
 

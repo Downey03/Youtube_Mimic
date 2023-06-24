@@ -370,10 +370,10 @@
 
 #search-results-in-playlist{
     position: absolute;
-    left: 18.5%;
+    left: 31.5%;
     top: 50px;
     background-color: rgba(49, 49, 49,0.7);
-    width: 70%;
+    width: 37%;
     padding: 8px;
     border-radius: 6px;
     z-index: 5;

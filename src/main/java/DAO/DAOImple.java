@@ -114,13 +114,13 @@ public class DAOImple implements DAOInterface{
 
         String userId = playListDTO.userId;
         String playListName = playListDTO.playListName;
-        System.out.println(playListName);
+        System.out.println(playListName+" "+userId);
 
         PlayList playList = ObjectifyInitializer.ofy().load().type(PlayList.class)
                 .filter("userId",userId).filter("playListName",playListName)
                 .first().now();
 
-
+        System.out.println(playList.toString());
 
         ObjectifyInitializer.ofy().delete().type(PlayList.class).id(playList.getPlayListId()).now();
 

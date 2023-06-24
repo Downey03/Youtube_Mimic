@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class JwtFilter implements CorsFilter {
+public class JwtFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -25,6 +25,7 @@ public class JwtFilter implements CorsFilter {
         System.out.println(req.getHeader("Authorization"));
 //        System.out.println(jwtToken+" \n"+JwtUtil.verifyToken(jwtToken));
         System.out.println("received");
+
         try{
 
             if(JwtUtil.verifyToken(jwtToken))

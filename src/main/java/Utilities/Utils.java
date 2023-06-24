@@ -5,21 +5,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 
 public class Utils {
 
+    public static String encodeString(String userId){
 
-//    public static String EncodeString(HttpServletRequest req){
-//        String id = ((req.getHeader("Authorization")).split(" ")[1]);
-//
-//        char[] userIdArray = id.toCharArray();
-//
-//        for(int i = 0 ; i < userIdArray.length ; i++){
-//            userIdArray[i] = userIdArray[i] + Char.va;
-//        }
-//
-//        return
-//    }
+        return  Base64.getEncoder().encodeToString(userId.getBytes());
+    }
+
+    public static String decodeString(String userId){
+
+        byte[] decode = Base64.getDecoder().decode(userId);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for(byte b : decode) stringBuilder.append(Character.toChars(b));
+
+        return stringBuilder.toString();
+    }
+
+
     public static String getRequestString(HttpServletRequest request) throws IOException {
 
         StringBuilder jb = new StringBuilder();

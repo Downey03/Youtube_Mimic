@@ -5,12 +5,10 @@
     display: flex;
 }
 
-#hamburger-icon-home{
-   margin-top: 20px;
-}
-
-.hamburger{
-    
+#hamburger-icon{
+    width: fit-content;
+    margin: auto;
+    margin-top: 25px;
     font-size: 24;
     background-color: rgb(219, 219, 219);
     padding: 10px;
@@ -18,7 +16,7 @@
     border: 1px solid black;
 }
 
-.hamburger:hover{
+#hamburger-icon:hover{
     transition: 0.2s;
     color: azure;
     background-color: rgb(127,127,127);
@@ -42,41 +40,14 @@
     border: 1px solid black;
 }
 
-.create-playlist-div{
-    padding: 20px;
-    border: solid 2px black;
-    border-radius: 6px;
-    height: 150px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.create-playlist-div~button{
-    border-radius: 6px;
-    width: 100%;
-    margin-top: 10px;
-    font-weight: 500;
-}
-
-.create-playlist-div~button:hover{
-    cursor: pointer;
-    transition: 0.2s;
-    color: azure;
-    background-color: rgb(127,127,127);
-    border: solid black 2px;
-}
-
 #create-playlist-input-field{
     margin: 5px;
-    width: 100%;
     margin-bottom: 10px;
     border-radius: 6px;
 }
 
 #create-playlist-btn{
     border-radius: 6px;
-    width: 100%;
-    margin: 5px;
     margin-bottom: 70px;
     font-weight: 500;
 }
@@ -88,8 +59,6 @@
     background-color: rgb(127,127,127);
     border: solid black 2px;
 }
-
-
 
 #playlists{
     background-color: white;
@@ -120,98 +89,7 @@
     /* top: 10%; */
 }
 
-#modal-content>div{
-   margin: 50px;
-}
-
-#modal-content>div>label{
-    font-weight: 600;
-}
-
-#modal-content>div>button{
-    width: 75%;
-}
-
-
-
-#select-playlist::-webkit-scrollbar {
-    display: none;
-  }
-
-  #choose-playlist-btn{
-    border-radius: 6px;
-    font-weight: 500;
-    margin: 5px;
-  }
-
-  #choose-playlist-btn:hover{
-    cursor: pointer;
-    transition: 0.2s;
-    color: azure;
-    background-color: rgb(127,127,127);
-    border: solid black 2px;
-  }
-
-
-  #select-playlist{
-    display: none;
-    margin-top: 5px;
-    position: relative;
-    left: 19.5%;
-    height: 200px;
-    overflow: scroll;
-    text-align: center;
-}
-
-
-#select-playlist div{
-    display: block;
-    width: 75%;
-    margin-bottom: 5px;
-    border-radius: 6px;
-    font-weight: 400;
-}
-
-#select-playlist a{
-    display: inline-block;
-    border: solid black 2px;
-    text-decoration: none;
-    color: black;
-    border-radius: 6px;
-    min-width:  95%;
-}
-
-
-#select-playlist a:hover{
-    cursor: pointer;
-    transition: 0.2s;
-    color: azure;
-    background-color: rgb(127,127,127);
-    border: solid black 2px;
-}
-
-#select-playlist button>div{
-    height: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-}
-
-#select-playlist button a{
-    text-decoration: none;
-    color: black;
-    font-weight: 400;
-}
-
-#select-playlist button a:hover{
-    color: white;
-}
-
-#select-playlist>div>svg:hover{
-    cursor: pointer;
-}
-
-/* .search-video-in-playlist{
+.search-video-in-playlist{
     position: sticky;
     background-color: white;
     top: 0;
@@ -271,7 +149,7 @@
     display: block;
     max-width: 200px;
     min-width: 200px;
-} */
+}
 
 .home-nav{
     padding: 20px 10px;
@@ -279,18 +157,6 @@
     background-color: black;
     justify-content: space-around;
     width: 96vw;
-}
-
-#home-btn{
-    color: white;
-    position: relative;
-    left: -130px;
-    font-size: 22;
-}
-
-#home-btn:hover{
-    cursor: pointer;
-    color: rgb(127,127,127);
 }
 
 #home-video-search-input{

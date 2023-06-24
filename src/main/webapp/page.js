@@ -58,7 +58,7 @@ let writeFunctions = {
     },
     writeLoginException : function(data){
         let element = document.getElementById("login-exception")
-        element.innerText = data
+        element.innerText = "Invalid Login Credentials"
         
         element.setAttribute("class","animate")
         setTimeout(removeAnimateLogin,4000,element)
@@ -229,3 +229,27 @@ loginSubmit.addEventListener('click',requests.login)
 indexVideoSearchBtn.addEventListener('click',requests.getIndexVideo)
 
 requests.getIndexVideo()
+
+let loginModal = document.getElementById("login-modal")
+let signupModal = document.getElementById("signup-modal")
+
+loginModal.addEventListener('hide.bs.modal',clearInputs)
+signupModal.addEventListener('hide.bs.modal',clearInputs)
+
+function clearInputs(){
+    loginPass.value = ""
+    loginEmail.value = ""
+    signupEmail.value = ""
+    signupName.value = ""
+    password.value = ""
+    confPassword.value = ""
+    passWarn.inn = ""
+    confPass.innerText = ""
+
+}
+
+let signUpPage = document.getElementById("signup-modal-trigger-btn")
+
+signUpPage.addEventListener('click',function(){
+    window.location.href = `${url}sign-up.html`
+})

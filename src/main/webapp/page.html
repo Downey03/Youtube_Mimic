@@ -9,10 +9,11 @@
         <div class="index-container">
             <!-- left container content -->
             <div class="left-container">
-                <i class="fa-solid fa-bars" id="hamburger-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#index-offcanvas" aria-controls="offcanvasTop"></i>
+                <i class="fa-solid fa-bars hamburger"  id="hamburger-home" type="button" data-bs-toggle="offcanvas" data-bs-target="#index-offcanvas" aria-controls="offcanvasTop"></i>
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="index-offcanvas" aria-labelledby="offcanvasTopLabel">
                     <div class="offcanvas-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <i class="fa-solid fa-bars hamburger" id="hamburger-offcanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#index-offcanvas" aria-controls="offcanvasTop"></i>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
                     </div>
                     <div class="offcanvas-body">
                         <button id="login-modal-trigger-btn" data-bs-toggle="modal" data-bs-target="#login-modal">Login</button>
@@ -45,10 +46,11 @@
                                     </td>
                                 </tr>
                             </table>
-                            <h6 id="login-exception">asfadgaf</h6>
+                            <h6 id="login-exception"></h6>
                         </div>
                         <br>
-                        <button id="signup-modal-trigger-btn" data-bs-toggle="modal" data-bs-target="#signup-modal">new user? signup</button>
+                        <button id="signup-modal-trigger-btn">new user? signup now</button>
+                        <!-- <button id="signup-modal-trigger-btn" data-bs-toggle="modal" data-bs-target="#signup-modal">new user? signup</button> -->
                     </div>
                 </div>
             </div>

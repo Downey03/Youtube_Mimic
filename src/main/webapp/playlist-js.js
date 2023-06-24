@@ -86,6 +86,55 @@ async function checkAndAddItemToPlayList(videoTitle){
     // }
 }
 
+homeVideoSearchInput.addEventListener('keyup',function(){
+
+    let searchResultsInPlayList = document.getElementById("search-results-in-playlist")
+    let searchKeyword = homeVideoSearchInput.value
+    if( searchKeyword.length>=3){
+
+        searchResultsInPlayList.style.display = "block"
+        getSearchResults()
+    }else{
+        searchResultsInPlayList.style.display = "none"
+    }
+})
+
+async function getSearchResults(){
+    
+    let searchKeyword = document.getElementById("home-video-search-input")
+    let response = await fetch(`${url}SearchController`,{
+            headers : {
+                "Content-Type" : "application/json",
+                "Authorization" : `bearer ${jwtToken}`
+            },
+            method : "POST",
+            Accept : "/*",
+            body : JSON.stringify({
+                "searchKeyword" : `${searchKeyword}`
+            })
+    }).then(res => res.json())
+
+
+
+    let writeDocument = document.getElementById("search-results-in-playlist")
+
+    let writeData = '<h6 id="already-found-item">Video Already Found In PlayList</h6>';
+
+    ///need some cahnges
+    for(x in data){
+
+        if(data[x].videoTitle)
+        writeData = writeData+`<div><button  onclick='clearPlayListSearchInput();checkAndAddItemToPlayList(\"${data[x].videoTitle}\")'  value="" >${data[x].videoTitle}</button></div>`
+        // writeData = writeData+"<div><button onclick=checkAndAddItemToPlayList(\'"+`${data[x].videoTitle}`+"\')  >"+`${data[x].videoTitle}`+"</button></div>"
+
+    }
+
+    writeDocument.innerHTML = writeData
+        
+    
+    
+}
+
 function animateAlreadyFound(){
     let element = document.getElementById("already-found-item")
     element.setAttribute("class","animate")

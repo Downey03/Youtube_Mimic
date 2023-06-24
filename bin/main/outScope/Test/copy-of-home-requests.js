@@ -26,13 +26,10 @@ const writeFunctions = {
     },
     writePlayList : function(){
         
-        let writeDocument = document.getElementById("select-playlist")
+        let writeDocument = document.getElementById("playlists")
         let writeData = "";
-        
         for(x in playLists) {
-
-            writeData = writeData+`<div><a onclick="changeCurrentPlayList('${playLists[x]}')" href="${url}playlist.html">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
-            // writeData = writeData+`<button><div><a href="${url}playlist.html">${playLists[x]}</a></p><i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div></button>`
+            writeData = writeData+ `<button id="${playLists[x]}" onclick="requests.viewPlayList('${playLists[x]}')" type="button" data-bs-toggle="modal" data-bs-target="#playlist-modal">${playLists[x]}</button>`;
         }
         writeDocument.innerHTML = writeData
     },
@@ -106,10 +103,13 @@ const requests = {
     createPlayList : async function(){
 
         let playListName = createPlayListInput.value
+        let element = document.getElementById("playlists")
 
-        playLists.push(playListName)
+        element.innerHTML = ""
 
-        writeFunctions.writePlayList()
+        await playLists.push(playListName)
+
+        writeFunctions.writePlayList(element)
 
         let response = await fetch(`${url}CreatePlayList`,{
             headers: {
@@ -166,7 +166,7 @@ const requests = {
     
     deletePlayList :async function(){
 
-        let playListName = currentPlayListName
+        let playListName = document.getElementById("playListName").value
         
         console.log(playLists)
         let idx = playLists.indexOf(playListName)

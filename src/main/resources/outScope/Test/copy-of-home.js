@@ -13,52 +13,34 @@ let logout = document.getElementById("logout-btn")
 
 let deletePlayListBtn = document.getElementById("delete-playlist-btn")
 
-// let playLists = [];
-// let currentPlayListName = "";
-// let currentPlayList= [];
-// let playListSearchResults = [];
+let playLists = [];
+let currentPlayListName = "";
+let currentPlayList= [];
+let playListSearchResults = [];
 
 
-function changeCurrentPlayList(playListName){
-    currentPlayListName = playListName
-}
 
-function goHome(){
-    window.location.href = `${url}home.html`
-}
-
-createPlayListInput.addEventListener('keyup',checkCreatePlayList)
-createPlayListBtn.addEventListener('click',function(){
-    createPlayListInput.value = ""
+playListModal.addEventListener('click',function(){
+    searchResultsInPlayList.style.display = "none"
 })
 
-// searchResultsInPlayList.addEventListener('onclick',function(){
-//     playListVideoSearchInput.value = ""
-// })
 
-// playListVideoSearchInput.addEventListener('keyup',function(){
-//     if(playListVideoSearchInput.value.length > 2 && playListVideoSearchInput.value.toString().trim()!="") {
-//         searchResultsInPlayList.style.display = "block"
-//         requests.getPlayListVideo()
-//     }else {
-//         searchResultsInPlayList.innerHTML = "";
-//         searchResultsInPlayList.style.display = "none"
-//     }
-// })
 
-function showPlayLists(){
-    let playLists = document.getElementById("select-playlist")
-    if(window.getComputedStyle(playLists).display == "block"){
-        playLists.style.display = "none"
-    }else{
-        playLists.style.display = "block"
+createPlayListInput.addEventListener('keyup',checkCreatePlayList)
+
+searchResultsInPlayList.addEventListener('onclick',function(e){
+    playListVideoSearchInput.value = ""
+})
+
+playListVideoSearchInput.addEventListener('keyup',function(){
+    if(playListVideoSearchInput.value.length > 2 && playListVideoSearchInput.value.toString().trim()!="") {
+        searchResultsInPlayList.style.display = "block"
+        requests.getPlayListVideo()
+    }else {
+        searchResultsInPlayList.innerHTML = "";
+        searchResultsInPlayList.style.display = "none"
     }
-    
-    
-}
-// playListModal.addEventListener('click',function(){
-//     searchResultsInPlayList.style.display = "none"
-// })
+})
 
 async function checkAndAddItemToPlayList(videoTitle){
 
@@ -98,9 +80,9 @@ function removeAnimate(element){
     element.classList.remove("animate")   
 }
 
-// function clearPlayListSearchInput(){
-//     playListVideoSearchInput.value = ""
-// }
+function clearPlayListSearchInput(){
+    playListVideoSearchInput.value = ""
+}
 
 
 function removeItem(videoTitle){
@@ -132,4 +114,4 @@ function containsSamePlayList(){
     else return false
 }
 
-// playListModal.addEventListener('hide.bs.modal',clearPlayListSearchInput)
+playListModal.addEventListener('hide.bs.modal',clearPlayListSearchInput)
