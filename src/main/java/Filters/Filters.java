@@ -8,7 +8,7 @@ import java.io.IOException;
 
 @WebFilter("/*")
 
-public class CorssFilter implements javax.servlet.Filter {
+public class Filters implements javax.servlet.Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

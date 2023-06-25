@@ -1,9 +1,9 @@
 // const url = "http://localhost:8080/Youtube_Mimic_JS/";
 // let jwtToken = localStorage.getItem("jwtToken")
 
-homeVideoSearchInput.addEventListener('keyup',function(e){
-    if(e.key == "Enter") requests.getHomeVideo()
-})
+// homeVideoSearchInput.addEventListener('keyup',function(e){
+//     if(e.key == "Enter") requests.getHomeVideo()
+// })
 
 const writeFunctions = {
 
@@ -31,7 +31,7 @@ const writeFunctions = {
         
         for(x in playLists) {
 
-            writeData = writeData+`<div><a href="${url}playlist.html">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
+            writeData = writeData+`<div><button  class="playlists"  onclick="switchPlayList('${playLists[x]}')">${playLists[x]}</button> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
             // writeData = writeData+`<button><div><a href="${url}playlist.html">${playLists[x]}</a></p><i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div></button>`
         }
         writeDocument.innerHTML = writeData
@@ -39,7 +39,7 @@ const writeFunctions = {
     writePlayListContent : function(playListName,data,element){
 
         
-        let writeData = `<input type="hidden" id=playListName value="${playListName}">`
+        let writeData = "";
         // currentPlayList = [];
         for(x in data){
             // currentPlayList.push(`${data[x].videoTitle}`)
@@ -50,7 +50,7 @@ const writeFunctions = {
                         <h6>${data[x].videoTitle}</h6>
                     </div>
                 </a>
-                <i onclick="requests.removeItemFromPlayList('${data[x].videoTitle}')" class="fa fa-circle-xmark delete-video"></i>
+                
             </div>`
         }
 
@@ -74,6 +74,10 @@ const writeFunctions = {
     }
 
 
+}
+
+function clearPlayListSearchInput(){
+    document.getElementById("home-video-search-input").value = ""
 }
 
 const requests = {
@@ -193,30 +197,45 @@ const requests = {
 
     getPlayListVideo : async function(){
 
-        let searchKeyword = document.getElementById("home-video-search-input").value
-        let response = await fetch(`${url}SearchController`,{
-            headers: { "Content-Type": "application/json",
-            "Authorization" : `Bearer ${jwtToken}`
-                },
-            body:JSON.stringify({
-                searchKeyword : `${searchKeyword}`
-            }),
-            method : "POST",
-            Accept:"/*",
-        }).then(res => res.json())
+        let playListName = currentPlayListName
+    let response = await fetch(`${url}GetPlayListItems`,{
+        headers: { "Content-Type": "application/json",
+        "Authorization" : `Bearer ${jwtToken}`
+            },
+        body : JSON.stringify({
+            playListName : `${playListName}`
+        }),
+        method : "POST",
+        Accept:"/*",
+    }).then(res => res.json())
 
-        playListSearchResults = response
-        writeFunctions.writePlayListVideo(response)
-        writeFunctions.writePlayListVideo(response)
+    currentPlayList = response
+    data = currentPlayList
+    let writeData = "";
+
+    currentPlayListVideoTitle = []
+    for(x in data){
+        currentPlayListVideoTitle.push(data[x].videoTitle)
+        writeData = writeData+`<div>
+            <a href="${data[x].videoLink}">
+                <img src="${data[x].videoThumbnail}">
+                <h6>${data[x].videoTitle}</h6>
+            </a>
+              
+            </div>`
+    }
+
+    homeSearchResults.innerHTML = writeData
     },
     addItemToPlayList : async function(videoTitle){
 
-        let playListName = document.getElementById("playListName").value
-        let element = document.getElementById("playlist-items")
-
+        let playListName = currentPlayListName
+        let element = document.getElementById("home-results")
+        document.getElementById("home-video-search-input").value = ""
+        document.getElementById("search-results-in-playlist").style.display = "none"
         currentPlayList = addItem(videoTitle);
-
-        writeFunctions.writePlayListContent(playListName,currentPlayList,element)
+        currentPlayListVideoTitle.push(videoTitle)
+        writeFunctions.writeHomeVideo(currentPlayList,element)
         await fetch(`${url}AddItemToPlayList`,{
             headers : {
                 "Content-Type" : "application/json",
@@ -235,11 +254,18 @@ const requests = {
     },
     removeItemFromPlayList : async function(videoTitle){
 
-        let playListName = document.getElementById("playListName").value
-        let element = document.getElementById("playlist-items")
+        let playListName = currentPlayListName
+        let element = document.getElementById("home-results")
 
+        document.getElementById("home-video-search-input").value = ""
+        document.getElementById("search-results-in-playlist").style.display = "none"
+        for(x in currentPlayListVideoTitle){
+            if(videoTitle == currentPlayListVideoTitle[x]){
+                currentPlayListVideoTitle.splice(x,1)
+            }
+        }
         currentPlayList = removeItem(videoTitle)
-        writeFunctions.writePlayListContent(playListName,currentPlayList,element)
+        writeFunctions.writeHomeVideo(currentPlayList,element)
         let response = await fetch(`${url}RemoveItemFromPlayList`,{
             headers: { 
                 "Content-Type": "application/json",
@@ -283,13 +309,7 @@ const requests = {
 }
 
 
-const playListRequests = {
-
-    getPlayListItems : {
-
-       
-    }
-}
+requests.getPlayListVideo()
 
 // requests.getHomeVideo()
 requests.getPlayLists()

@@ -13,10 +13,10 @@ let logout = document.getElementById("logout-btn")
 
 let deletePlayListBtn = document.getElementById("delete-playlist-btn")
 
-// let playLists = [];
-// let currentPlayListName = "";
-// let currentPlayList= [];
-// let playListSearchResults = [];
+let playLists = [];
+let currentPlayListName = "";
+let currentPlayList= [];
+let playListSearchResults = [];
 
 
 function changeCurrentPlayList(playListName){

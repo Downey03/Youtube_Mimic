@@ -3,6 +3,7 @@ let createPlayListBtn = document.getElementById("create-playlist-btn")
 
 let homeVideoSearchInput = document.getElementById("home-video-search-input")
 let homeSearchBtn = document.getElementById("home-search-btn")
+let homeSearchResults = document.getElementById("home-results")
 
 let playListVideoSearchInput = document.getElementById("playlist-video-search-input")
 let searchResultsInPlayList = document.getElementById("search-results-in-playlist")
@@ -13,15 +14,19 @@ let logout = document.getElementById("logout-btn")
 
 let deletePlayListBtn = document.getElementById("delete-playlist-btn")
 
-// let playLists = [];
-// let currentPlayListName = "";
-// let currentPlayList= [];
-// let playListSearchResults = [];
+var playLists = [];
+var currentPlayListName = "";
+var currentPlayList= [];
+var playListSearchResults = [];
+let currentPlayListVideoTitle = [];
 
-
-function changeCurrentPlayList(playListName){
-    currentPlayListName = playListName
+function getCurrentPlayListName(){
+    let searchParams = new URLSearchParams(window.location.search);
+    currentPlayListName = searchParams.get("playListName")
 }
+
+getCurrentPlayListName()
+
 
 function goHome(){
     window.location.href = `${url}home.html`
@@ -60,31 +65,33 @@ function showPlayLists(){
 //     searchResultsInPlayList.style.display = "none"
 // })
 
-async function checkAndAddItemToPlayList(videoTitle){
+// async function checkAndAddItemToPlayList(videoTitle){
 
-    console.log(videoTitle,currentPlayList)
-    if(currentPlayList.length == 0 ) {
-        requests.addItemToPlayList(videoTitle)
-    }else{
-        for(x in currentPlayList){
-            console.log(currentPlayList[x].videoTitle.toString(), videoTitle.toString())
-            if(currentPlayList[x].videoTitle == videoTitle){
-                console.log("saf")
-                animateAlreadyFound()
-                return;
-            }
-         }
-         requests.addItemToPlayList(videoTitle)
-         return new Promise(resolve => resolve())
+//     console.log(videoTitle,currentPlayList)
+//     if(currentPlayList.length == 0 ) {
+//         requests.addItemToPlayList(videoTitle)
+//     }else{
+//         for(x in currentPlayList){
+//             console.log(currentPlayList[x].videoTitle.toString(), videoTitle.toString())
+//             if(currentPlayList[x].videoTitle == videoTitle){
+
+//                 animateAlreadyFound()
+//                 return;
+//             }
+//          }
+//          requests.addItemToPlayList(videoTitle)
+//          return new Promise(resolve => resolve())
     
-    }
+//     }
     // if(currentPlayList[].includes(videoTitle)){
     //     console.log("saf")
     //     animateAlreadyFound()
     // }else{
     //     requests.addItemToPlayList(videoTitle)
     // }
-}
+
+
+
 
 homeVideoSearchInput.addEventListener('keyup',function(){
 
@@ -93,16 +100,19 @@ homeVideoSearchInput.addEventListener('keyup',function(){
     if( searchKeyword.length>=3){
 
         searchResultsInPlayList.style.display = "block"
-        getSearchResults()
+        getSearchResults(searchKeyword)
     }else{
+        searchResultsInPlayList.value = ""
         searchResultsInPlayList.style.display = "none"
     }
 })
 
-async function getSearchResults(){
+
+
+
+async function getSearchResults(searchKeyword){
     
-    let searchKeyword = document.getElementById("home-video-search-input")
-    let response = await fetch(`${url}SearchController`,{
+      let response = await fetch(`${url}SearchController`,{
             headers : {
                 "Content-Type" : "application/json",
                 "Authorization" : `bearer ${jwtToken}`
@@ -112,28 +122,40 @@ async function getSearchResults(){
             body : JSON.stringify({
                 "searchKeyword" : `${searchKeyword}`
             })
-    }).then(res => res.json())
-
-
+    })
 
     let writeDocument = document.getElementById("search-results-in-playlist")
 
-    let writeData = '<h6 id="already-found-item">Video Already Found In PlayList</h6>';
+    let writeData = "";
+    if(response.status == 404){
+    
+         writeData = "<h6>No Video Found</h6>";
+
+    }else{
+
+        let data = await response.json()
+
+        playListSearchResults = data
 
     ///need some cahnges
     for(x in data){
-
-        if(data[x].videoTitle)
-        writeData = writeData+`<div><button  onclick='clearPlayListSearchInput();checkAndAddItemToPlayList(\"${data[x].videoTitle}\")'  value="" >${data[x].videoTitle}</button></div>`
-        // writeData = writeData+"<div><button onclick=checkAndAddItemToPlayList(\'"+`${data[x].videoTitle}`+"\')  >"+`${data[x].videoTitle}`+"</button></div>"
-
+            console.log(data[x].videoTitle)
+                if(!currentPlayListVideoTitle.includes(data[x].videoTitle)){
+                    writeData = writeData+`<div><button    value="" >${data[x].videoTitle}<span onclick='clearPlayListSearchInput();requests.addItemToPlayList(\"${data[x].videoTitle}\")' class="add-to-playlist" >Add To PlayList</span></button></div>`
+                }else{
+                    writeData = writeData+`<div><button    value="" >${data[x].videoTitle}<span onclick='clearPlayListSearchInput();requests.removeItemFromPlayList(\"${data[x].videoTitle}\")' class="remove-from-playlist" >Remove From PlayList</span></button></div>`
+                }
+               
+                // writeData = writeData+"<div><button onclick=checkAndAddItemToPlayList(\'"+`${data[x].videoTitle}`+"\')  >"+`${data[x].videoTitle}`+"</button></div>"
+        
+            }
     }
 
     writeDocument.innerHTML = writeData
-        
-    
     
 }
+
+
 
 function animateAlreadyFound(){
     let element = document.getElementById("already-found-item")
@@ -147,12 +169,10 @@ function removeAnimate(element){
     element.classList.remove("animate")   
 }
 
-// function clearPlayListSearchInput(){
-//     playListVideoSearchInput.value = ""
-// }
 
 
 function removeItem(videoTitle){
+
     for(x in currentPlayList){
         if(currentPlayList[x].videoTitle == videoTitle){
             console.log("removing ",currentPlayList[x].videoTitle)
@@ -162,6 +182,8 @@ function removeItem(videoTitle){
     return currentPlayList
 }
 
+
+
 function addItem(videoTitle){
     for(x in playListSearchResults){
         if(playListSearchResults[x].videoTitle == videoTitle){
@@ -170,6 +192,7 @@ function addItem(videoTitle){
     }
     return currentPlayList
 }
+
 
 function checkCreatePlayList(){
     if(createPlayListInput.value.length >= 3 && !containsSamePlayList()) createPlayListBtn.disabled = false
@@ -181,4 +204,3 @@ function containsSamePlayList(){
     else return false
 }
 
-// playListModal.addEventListener('hide.bs.modal',clearPlayListSearchInput)

@@ -30,8 +30,8 @@ const writeFunctions = {
         let writeData = "";
         
         for(x in playLists) {
-
-            writeData = writeData+`<div><a onclick="changeCurrentPlayList('${playLists[x]}')" href="${url}playlist.html">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
+            writeData = writeData+`<div><button  class="playlists"  onclick="switchPlayList('${playLists[x]}')">${playLists[x]}</button> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
+            // writeData = writeData+`<div><a  href="this.href+playlist.html"  onclick="location.href=this.href+'?playListName=${playLists[x]}'">${playLists[x]}</a> <i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div>`
             // writeData = writeData+`<button><div><a href="${url}playlist.html">${playLists[x]}</a></p><i data-bs-toggle="modal" data-bs-target="#confirm-playlist-delete" onclick="changeCurrentPlayList('${playLists[x]}')" class="fa fa-circle-xmark delete-video"></i></div></button>`
         }
         writeDocument.innerHTML = writeData
@@ -74,6 +74,14 @@ const writeFunctions = {
     }
 
 
+}
+
+function switchPlayList(playListName){
+
+    let loc = window.location.pathname;
+    let arr = loc.split('/')
+
+    window.location.href = window.location.origin+"/"+arr[1]+`/playlist.html?playListName=${playListName}`
 }
 
 const requests = {

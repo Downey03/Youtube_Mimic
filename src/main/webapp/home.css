@@ -172,7 +172,16 @@
     font-weight: 400;
 }
 
-#select-playlist a{
+#select-playlist>div>button{
+    display: inline-block;
+    border: solid black 2px;
+    text-decoration: none;
+    color: black;
+    border-radius: 6px;
+    min-width:  95%;
+}
+
+.playlist{
     display: inline-block;
     border: solid black 2px;
     text-decoration: none;
@@ -182,7 +191,7 @@
 }
 
 
-#select-playlist a:hover{
+#select-playlist button:hover{
     cursor: pointer;
     transition: 0.2s;
     color: azure;
@@ -333,7 +342,7 @@
     padding: 20px;
     background-color: rgb(235, 235, 235);
     height: fit-content;
-    width: 67%;
+    width: 96%;
     margin :auto;
     
 }
@@ -343,7 +352,7 @@
     flex-flow: row wrap;
     justify-content: center;
     padding: 10px;
-    width: fit-content
+    width: 100%;
 }
 
 #home-results a{

@@ -253,3 +253,4 @@ let signUpPage = document.getElementById("signup-modal-trigger-btn")
 signUpPage.addEventListener('click',function(){
     window.location.href = `${url}sign-up.html`
 })
+
