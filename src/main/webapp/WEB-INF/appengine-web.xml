@@ -4,9 +4,8 @@
     <!--    <public-root>/app-engine</public-root>-->
     <sessions-enabled>true</sessions-enabled>
 
-    <application>internship-full</application>
+    <application>sound-groove-380715</application>
 
     <runtime>java8</runtime>
-
 
 </appengine-web-app>

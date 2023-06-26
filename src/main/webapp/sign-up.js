@@ -6,7 +6,10 @@ let passWarn = document.getElementById("pass-check")
 let confPass = document.getElementById("conf-pass")
 let signupSubmit = document.getElementById("signup-submit")
 let passwordToggle = document.getElementById("password-toggle")
-const url = "http://localhost:8080/Youtube_Mimic_JS/";
+const laurl = "http://localhost:8091/";
+const tomcaturl = "http://localhost:8080/Youtube_Mimic_JS/";
+const url = "https://sound-groove-380715.de.r.appspot.com/";
+const url2 = "https://karthick-dot-sound-groove-380715.de.r.appspot.com/";
 
 passwordToggle.addEventListener('onclick',passwordToggle)
 password.addEventListener('keyup',passwordValidation)

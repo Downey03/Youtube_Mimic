@@ -29,7 +29,7 @@ public class ServiceImple implements ServiceInterface{
         SearchDTO searchDto = gson.fromJson(new StringReader(jsonString), SearchDTO.class);
 
         PlayListDTO playListDTO;
-        if(searchDto.getSearchKeyword() != null && !searchDto.getSearchKeyword().trim().equals("")) {
+        if(searchDto != null && searchDto.getSearchKeyword() != null && !searchDto.getSearchKeyword().trim().equals("")) {
             playListDTO = daoInstance.getVideos(searchDto.getSearchKeyword());
         }else{
             playListDTO = daoInstance.getVideos();

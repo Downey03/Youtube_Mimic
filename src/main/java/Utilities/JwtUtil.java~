@@ -29,8 +29,7 @@ public class JwtUtil {
     }
     public static boolean verifyToken(String tkn){
         DecodedJWT decodedTkn = decodeToken(tkn);
-        System.out.println(decodedTkn.getClaim("userId").asString());
-        return !decodedTkn.getClaim("userId").isMissing();
+        return decodedTkn != null && !decodedTkn.getClaim("userId").isMissing();
     }
 
     public static String getUserEmail(String tkn){

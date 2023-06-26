@@ -57,9 +57,9 @@ appengine {
     deploy {   // deploy configuration
         stopPreviousVersion = true  // default - stop the current version
         promote = true              // default - & make this the current version
-        projectId = 'internship-full'
-        version = 'karthick'
-
+        projectId = 'sound-groove-380715'
+        version = 'karthickv2'
+        server = 'appengine'
     }
     tools {
         // configure the Cloud Sdk tooling

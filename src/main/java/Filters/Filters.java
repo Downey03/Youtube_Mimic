@@ -20,10 +20,12 @@ public class Filters implements javax.servlet.Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         resp.setHeader("Access-Control-Allow-Origin","*");
-        resp.setHeader("Access-Control-Allow-Methods","POST, PUT, GET, OPTIONS, DELETEE");
+        resp.setHeader("Access-Control-Allow-Methods","POST, PUT, GET, OPTIONS, DELETE");
         resp.setHeader("Access-Control-Max-Age", "3600");
         resp.setHeader("Access-Control-Allow-Headers","X-Requested-with,Origin,Content-Type, Accept, x-device-user-agent, Content-Type");
 
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+        resp.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         if(req.getMethod().equals("OPTIONS")){
             resp.setStatus(HttpServletResponse.SC_OK);
             return;

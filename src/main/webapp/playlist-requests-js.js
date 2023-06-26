@@ -104,7 +104,8 @@ const requests = {
         let response = await fetch(`${url}SearchController`,{
             headers : {
                 "Content-Type" : "application/json",
-                "Authorization" : `bearer ${jwtToken}`
+                "Authorization" : `bearer ${jwtToken}`,
+                "Accept":"/*"
             },
             method : "POST",
             Accept : "/*",
@@ -148,7 +149,8 @@ const requests = {
 
         let response = await fetch(`${url}GetPlayLists`,{
             headers: { "Content-Type": "application/json",
-            "Authorization" : `Bearer ${jwtToken}`
+            "Authorization" : `Bearer ${jwtToken}`,
+            "Accept":"/*"
                 },
             method : "POST",
             Accept:"/*",
@@ -168,7 +170,8 @@ const requests = {
         writeFunctions.writePlayListContent(playListName,currentPlayList,element);
         let response = await fetch(`${url}GetPlayListItems`,{
             headers: { "Content-Type": "application/json",
-            "Authorization" : `Bearer ${jwtToken}`
+            "Authorization" : `Bearer ${jwtToken}`,
+            "Accept":"/*"
                 },
             body : JSON.stringify({
                 playListName : `${playListName}`
@@ -194,7 +197,8 @@ const requests = {
 
         let response = await fetch(`${url}DeletePlayList`,{
             headers: { "Content-Type": "application/json",
-            "Authorization" : `Bearer ${jwtToken}`
+            "Authorization" : `Bearer ${jwtToken}`,
+            "Accept":"/*"
                 },
             body: JSON.stringify({
                 playListName 
@@ -214,7 +218,8 @@ const requests = {
         let playListName = currentPlayListName
     let response = await fetch(`${url}GetPlayListItems`,{
         headers: { "Content-Type": "application/json",
-        "Authorization" : `Bearer ${jwtToken}`
+        "Authorization" : `Bearer ${jwtToken}`,
+        "Accept":"/*"
             },
         body : JSON.stringify({
             playListName : `${playListName}`
@@ -254,7 +259,8 @@ const requests = {
         await fetch(`${url}AddItemToPlayList`,{
             headers : {
                 "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${jwtToken}`
+                "Authorization" : `Bearer ${jwtToken}`,
+                "Accept":"/*"
             },
             method : "POST",
             Accept : "/*",
@@ -284,7 +290,8 @@ const requests = {
         let response = await fetch(`${url}RemoveItemFromPlayList`,{
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization" : `Bearer ${jwtToken}`
+                "Authorization" : `Bearer ${jwtToken}`,
+                "Accept":"/*"
                 },
             method : "POST",
             Accept:"/*",
