@@ -122,7 +122,10 @@ let requests = {
         if(response.status >= 200 && response.status <=299){
             let data = await response.json();
             localStorage.setItem("jwtToken",data);
-            window.location.href=url+"home.html"
+            // window.location.href=url+"home.html"
+            let x = window.location.pathname;
+            let arr = x.split("/")
+            window.location.href = window.location.origin+"/"+arr[1]+`/home.html`
         }else{
             let data = await response.text();
             writeFunctions.writeLoginException(data)
@@ -152,8 +155,11 @@ let requests = {
             writeFunctions.writeSignUpException(data)
         }else{
             let data = await response.json();
+            let x = window.location.pathname;
+            let arr = x.split("/")
             localStorage.setItem("jwtToken",data);
-            window.location.href=url+"home.html"
+            window.location.href = window.location.origin+"/"+arr[1]+`/home.html`
+            // window.location.href=url+"home.html"
         }
     }
 

@@ -5,6 +5,8 @@
     display: flex;
 }
 
+
+
 #hamburger-icon-home{
    margin-top: 20px;
 }
@@ -342,7 +344,7 @@
     padding: 20px;
     background-color: rgb(235, 235, 235);
     height: fit-content;
-    width: 96%;
+    width: 100%;
     margin :auto;
     
 }
@@ -352,7 +354,7 @@
     flex-flow: row wrap;
     justify-content: center;
     padding: 10px;
-    width: 100%;
+    width: 97%;
 }
 
 #home-results a{

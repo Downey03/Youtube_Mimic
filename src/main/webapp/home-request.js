@@ -50,7 +50,8 @@ const writeFunctions = {
                         <h6>${data[x].videoTitle}</h6>
                     </div>
                 </a>
-                <i onclick="requests.removeItemFromPlayList('${data[x].videoTitle}')" class="fa fa-circle-xmark delete-video"></i>
+                <i onclick="requests.removeItemFromPlayList('${data[x].videoTitle}')" class="fa fa-circle-xmar
+                k delete-video"></i>
             </div>`
         }
 
@@ -285,7 +286,10 @@ const requests = {
     // },
     logout : function(){
         localStorage.clear();
-        window.location.href=url+"page.html"
+        let x = window.location.pathname;
+        let arr = x.split("/")
+        window.location.href = window.location.origin+"/"+arr[1]+`/page.html`
+        // window.location.href=url+"page.html"
     }
     
 }

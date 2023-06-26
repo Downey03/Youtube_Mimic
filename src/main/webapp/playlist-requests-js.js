@@ -12,7 +12,7 @@ const writeFunctions = {
         let writeData = "";
         for(x in data){
             writeData = writeData+`
-                <a href="${data[x].videoLink}">
+                 <a href="${data[x].videoLink}">
                     <img src="${data[x].videoThumbnail}">
                     ${data[x].videoTitle}
                 </a>`;
@@ -74,6 +74,20 @@ const writeFunctions = {
     }
 
 
+}
+
+
+
+function playVideo(videoLink){
+
+    let writeData = `<iframe src="${videoLink}" width=720px height=1080px></iframe>`
+    document.getElementById("video-player").innerHTML = writeData;
+}
+
+function switchPlayList(playListName){
+    let x = window.location.pathname;
+    let arr = x.split("/")
+    window.location.href = window.location.origin+"/"+arr[1]+`/page.html`
 }
 
 function clearPlayListSearchInput(){
@@ -217,8 +231,9 @@ const requests = {
     for(x in data){
         currentPlayListVideoTitle.push(data[x].videoTitle)
         writeData = writeData+`<div>
-            <a href="${data[x].videoLink}">
-                <img src="${data[x].videoThumbnail}">
+             <a href="${data[x].videoLink}">
+               
+               <img src="${data[x].videoThumbnail}">
                 <h6>${data[x].videoTitle}</h6>
             </a>
               
