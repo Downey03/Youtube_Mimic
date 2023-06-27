@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "LoginController",urlPatterns = {"/home/LoginController"})
+//@WebServlet(name = "LoginController",urlPatterns = {"/home/LoginController"})
 public class LoginController extends HttpServlet {
 
     ServiceInterface serviceInstance = new ServiceImple();
 
 
-    protected void validateLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void validateLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.validateLogin(req,resp);
     }
 

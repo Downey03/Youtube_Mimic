@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "RemoveItemFromPlayList",urlPatterns = {"/RemoveItemFromPlayList"})
+//@WebServlet(name = "RemoveItemFromPlayList",urlPatterns = {"/RemoveItemFromPlayList"})
 public class RemoveItemFromPlayList extends HttpServlet {
 
     ServiceInterface serviceInstance = new ServiceImple();
 
-    protected void removeItemFromPlayList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void removeItemFromPlayList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.removeItemFromPlayList(req,resp);
     }
 

@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name="SearchController",urlPatterns = {"/SearchController"})
-@MultipartConfig
+//@WebServlet(name="SearchController",urlPatterns = {"/SearchController"})
 public class SearchController extends HttpServlet {
 
     ServiceInterface serviceInterface = new ServiceImple();
 
 
-    protected void getVideos(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void getVideos(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInterface.getVideos(req,resp);
     }
 

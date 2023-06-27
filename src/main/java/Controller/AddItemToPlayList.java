@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "AddItemToPlayList",urlPatterns = {"/AddItemToPlayList"})
+//@WebServlet(name = "AddItemToPlayList",urlPatterns = {"/AddItemToPlayList"})
 public class AddItemToPlayList extends HttpServlet {
     ServiceInterface serviceInstance = new ServiceImple();
 
-    protected void addItemToPlayList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void addItemToPlayList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.addItemToPlayList(req,resp);
     }
 

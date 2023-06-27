@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
+//@WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
 public class SignUpController extends HttpServlet {
 
     ServiceInterface serviceInstance = new ServiceImple();
 
-    protected void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.createUser(req,resp);
     }
 

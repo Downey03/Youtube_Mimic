@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "GetPlayLists", urlPatterns = {"/GetPlayLists"})
+//@WebServlet(name = "GetPlayLists", urlPatterns = {"/GetPlayLists"})
 public class GetPlayLists extends HttpServlet {
     ServiceInterface serviceInstance = new ServiceImple();
 
 
-    protected void getPlayLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void getPlayLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.getPlayLists(req, resp);
     }
 

@@ -21,9 +21,10 @@ apply plugin: 'org.akhikhl.gretty'
 apply plugin: 'com.google.cloud.tools.appengine'
 
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+//    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     providedCompile 'com.google.appengine:appengine:+'
 // Add your dependencies here..
+    implementation 'javax.servlet:javax.servlet-api:3.0.1'
     implementation 'com.auth0:java-jwt:4.4.0'
     implementation platform('com.google.cloud:libraries-bom:26.16.0')
 
