@@ -1,10 +1,9 @@
 package Controller;
 
-import Service.ServiceImple;
+import Service.Service;
 import Service.ServiceInterface;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,7 @@ import java.io.IOException;
 
 //@WebServlet(name = "GetPlayListItems",urlPatterns = {"/GetPlayListItems"})
 public class GetPlayListItems extends HttpServlet {
-    ServiceInterface serviceInstance = new ServiceImple();
+    ServiceInterface serviceInstance = new Service();
 
     public void getPlayListItems(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         serviceInstance.getPlayListItems(req,resp);

@@ -4,16 +4,126 @@
           version="4.0">
     <!--    <display-name>Archetype Created Web Application</display-name>-->
     <welcome-file-list>
-        <welcome-file>welcome.html</welcome-file>
+        <welcome-file>page.html</welcome-file>
     </welcome-file-list>
 
-<!--    <fiter>-->
+    <servlet>
+        <servlet-name>SignUpController</servlet-name>
+        <servlet-class>Controller.SignUpController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignUpController</servlet-name>
+        <url-pattern>/user/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>Controller.LoginController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/user/get</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreatePlayList</servlet-name>
+        <servlet-class>Controller.CreatePlayList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreatePlayList</servlet-name>
+        <url-pattern>/playlist/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeletePlayList</servlet-name>
+        <servlet-class>Controller.DeletePlayList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeletePlayList</servlet-name>
+        <url-pattern>/playlist/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetPlayLists</servlet-name>
+        <servlet-class>Controller.GetPlayLists</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetPlayLists</servlet-name>
+        <url-pattern>/playlist/get</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetPlayListItems</servlet-name>
+        <servlet-class>Controller.GetPlayListItems</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetPlayListItems</servlet-name>
+        <url-pattern>/playlist/view</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddItemToPlayList</servlet-name>
+        <servlet-class>Controller.AddItemToPlayList</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddItemToPlayList</servlet-name>
+        <url-pattern>/playlist/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RemoveItemFromPlayList</servlet-name>
+        <servlet-class>Controller.RemoveItemFromPlayList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveItemFromPlayList</servlet-name>
+        <url-pattern>/playlist/remove</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>Controller.SearchController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/video/search</url-pattern>
+    </servlet-mapping>
+
+
+
+    <filter>
+        <filter-name>ObjectifyWeb</filter-name>
+        <filter-class>ObjectifyService.ObjectifyWebFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyWeb</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>ObjectifyService.ObjectifyInitializer</listener-class>
+    </listener>
+    <filter>
+        <filter-name>filter</filter-name>
+        <filter-class>Filters.Filters</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>/LoginController</url-pattern>
+    </filter-mapping>
+<!--    <filter>-->
 <!--        <filter-name>JwtFilter</filter-name>-->
 <!--        <filter-class>Filters.JwtFilter</filter-class>-->
-<!--    </fiter>-->
+<!--    </filter>-->
 
 <!--    <filter-mapping>-->
 <!--        <filter-name>JwtFilter</filter-name>-->
+<!--        <url-pattern>/GetPlayLists</url-pattern>-->
+<!--        <url-pattern>/AddItemToPlayList</url-pattern>-->
+<!--        <url-pattern>/GetPlayListItems</url-pattern>-->
+<!--        <url-pattern>/DeletePlayList</url-pattern>-->
+<!--        <url-pattern>/CreatePlayList</url-pattern>-->
+<!--        <url-pattern>/RemoveItemFromPlayList</url-pattern>-->
 <!--    </filter-mapping>-->
 
 

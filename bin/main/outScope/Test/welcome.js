@@ -1,26 +1,22 @@
 console.clear();
 
+function validate(){
 
-
-validate(){
-  
-}
-(function passwordValidation(){
-     
+  let pass = document.getElementById("login-pass").value
   let submit = document.getElementById("login-submit")
-  let email = document.getElementById("login-email")
-  let pass = document.getElementById("login-pass")
-  console.log(submit)
 
-  if(pass.value.length<8)
-    submit.disabled = true;
-  else
-    submit.disabled = false;
+  if(checkLoginEmail() && pass.length>8) submit.disabled = false;
+  else submit.disabled = true; 
 
-})();
+}
 
+function checkLoginEmail(){
 
+  let email = document.getElementById("login-email").value
 
+  if(email.length <= 10 || !email.toString().includes('@') || !email.toString().includes(".") ) return false;
+  return true
+}
 
 function check(){
   let passWarn = document.getElementById("pass-check")  
@@ -53,8 +49,17 @@ function submitValidate(){
   document.getElementById("password").value.oldvalue = password
   let passWarn = document.getElementById("pass-check")
   let confPass = document.getElementById("conf-pass")
-  if(password!="" && passWarn.outerText=="" && confPass.outerText=="") submit.disabled = false;
+  if(checkEmailAndName() && password!="" && passWarn.outerText=="" && confPass.outerText=="") submit.disabled = false;
   else submit.disabled = true;
+}
+
+function checkEmailAndName(){
+  let email = document.getElementById("email").value
+  let name = document.getElementById("name").value
+  if(email.length <= 10 || !email.toString().includes('@') || !email.toString().includes(".") ) return false;
+  if(name.length < 3) return false
+  return true
+
 }
 
 
@@ -84,3 +89,4 @@ signupInput.addEventListener('hidden.bs.modal', event => {
   document.getElementById("password").value = ""
   document.getElementById("confirm-password").value = ""
 })
+

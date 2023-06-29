@@ -48,23 +48,29 @@ async function getVideoContent(){
    
 }
 
-function writeNotFound(){
-    let table = document.getElementById("result-table")
 
-    let writeData = "<tr><td>No Video Found</td></tr>"
+
+
+function writeNotFound(){
+    let table = document.getElementById("result-content")
+
+    let writeData = "<h3>No Video Found</h3>"
 
     table.innerHTML = writeData
 }
 
 function writeVideoContentDocument(data){
     
-    let table = document.getElementById("result-table")
+    let table = document.getElementById("result-content")
     
     let writeData ="";
 
     for(let x in data){
-        writeData = writeData+`<tr><td><a target="_blank" href="${data[x].link}">${data[x].title}</a></td></tr>`;
-    }
+        writeData = writeData+` 
+        <a href="${data[x].videoLink}">
+          <img src="${data[x].videoThumbnail}">
+          ${data[x].videoTitle}
+        </a> `}
     table.innerHTML=writeData;
 }
 
@@ -114,11 +120,11 @@ let functions = {
                 "Content-Type":"application/json",
                 "Accept":"/*"
             },
-            body:{
-                name : `${userName}`,
-                email : `${userEmail}`,
+            body:JSON.stringify({
+                userName : `${userName}`,
+                userEmail : `${userEmail}`,
                 password : `${password}`
-            },
+            }),
             redirect:"follow"
         })
 

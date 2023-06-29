@@ -1,4 +1,4 @@
-package Bean;
+package Entity;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -9,15 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class YTLink {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PlayList {
     @Id
-    String id;
+    String playListId;
     @Index
-    String title;
+    String playListName;
     @Index
-    String link;
+    String userId;
+
+
 }

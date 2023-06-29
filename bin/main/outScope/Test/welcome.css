@@ -29,6 +29,8 @@
     background-color:#FF0000;
 }
 
+
+
 #login-side{
     position: relative;
     left: 25%;
@@ -98,7 +100,6 @@
     to{
      opacity: 0;
     }
- 
  }
  
  
@@ -114,7 +115,6 @@
      border-radius: 5px;
      text-align: center;
      animation: hide 1s 2s forwards;
- 
  }
  
  .email-warn::after{
@@ -268,4 +268,32 @@
     margin: auto;
     background-color:aliceblue;
     border-radius: 4px;
+}
+
+
+#result-content{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding: 10px;
+    width: fit-content;
+}
+
+#result-content a{
+    text-decoration: none;
+    color: white;
+    width: 210px;
+    border-radius: 6px;
+    margin: 5px;
+    background-color: black;
+    box-shadow: 0 0 1px 2px rgb(77,77,77);
+    padding: 5px;
+    min-width: 210px;
+    max-width: 210px;
+}
+
+#result-content img{
+    width: 200px;
+    display: block;
+    
 }

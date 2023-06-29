@@ -1,99 +1,87 @@
 <html>
     <head>
-        <script src="home-checkValid.js"></script>
+        <!-- add script to check jwt -->
+        <script src="Scripts/home-valid.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <link rel="stylesheet" href="home.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="global-styles.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="Styles/home.css">
     </head>
     <body>
         <div class="home-container">
-            
-            <div class="main-container">
-                <div class="left-content">
-                    <i class="fa-solid fa-bars" id="hamburger-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"></i>
+            <!-- Left container| contains field to create playlist and List of playlist -->
+            <div class="left-container">
+                <i class="fa-solid fa-bars hamburger"  id="hamburger-icon-home" type="button" data-bs-toggle="offcanvas" data-bs-target="#home-offcanvas" aria-controls="offcanvasTop"></i>
+            </div>
+            <div class="offcanvas offcanvas-start" id="home-offcanvas" tabindex="-1" aria-labelledby="offcanvasTopLabel">
+                <div class="offcanvas-header">
+                    <i class="fa-solid fa-bars hamburger"  id="hamburger-icon-offcanvas" type="button"  data-bs-toggle="offcanvas" data-bs-target="#home-offcanvas"  aria-label="Close"></i>
                     
-                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-                        <div class="offcanvas-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-
-                          <div class="create-playlist-div">
-                            <input type="text" id="create-playlist" onkeyup="checkCreatePlayListInput()" name="playListName"><br>
-                            <button type="button" onclick="createPlaylist()" id="create-playlist-btn">Create</button>
-                            
-                          </div>
-                          
-                          <div class="playlists" id="playlists" >
-                            
-                          </div>
-
-                          
-
-                        </div>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="create-playlist-div">
+                        <Label for="create-playlist-input-field">Create New PlayList</Label>
+                        <input type="text" placeholder="Enter PlayList Name" id="create-playlist-input-field"> <br>
+                        <button type="button" disabled onclick="requests.createPlayList();checkCreatePlayList()"  id="create-playlist-btn">Create</button>
                     </div>
-                    <div class="modal fade" id="playlist-content-modal" tabindex="-1" aria-labelledby="playlist-modal" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content" id="modal-content">
-                          <div class="videoSearch">
-                             <button id="delete-playlist">Delete Playlist</button>
-                             <input type="text" id="video-search">
-                             <button class="search-btn">search</button>
-                          </div>
-                          <div class="modal-body playlist-content-modal" id="playlist-items">
-                           
-                            
-                          </div>    
-                        </div>
-                         
+                    <button data-bs-target="#playlist-modal" data-bs-toggle="modal">View PlayLists</button>
+                    
+                </div>
+            </div>   <!--left container ends here-->
+            
+            <!-- modal to display playlist contents -->
+            <div class="modal fade"  id="playlist-modal" tabindex="-1" aria-labelledby="playlist-model" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" id="modal-content">
+                        <div>
+                            <Label for="choose-playlist-btn">Select A PlayList</Label>
+                            <button id="choose-playlist-btn" onclick="showPlayLists()">Choose A PlayList</button>
+                                <div name="Select PlayList" id="select-playlist">
+                                    
+                                </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="right-content">
-                 
-                  <nav class="home-nav">
-                    <div class="hidden">
-
-                    </div>
-                    <div class="search-div">
-                      
-                      <input id="searchKeyword" name="searchKeyword" type="text">
-                      <button onclick="getVideoContent()" id="search-btn">Search</button>
-                    </div>
-                    <div class="logout-div">
-                      <button id="logout-btn" onclick="logout()">logout</button>
-                    </div>
-                          
-                  </nav>
-                  <main class="main-content">
-                      <div class="container" id="container">
-                          
-                          <table id="result-table">
-                              
-                          </table>
-
-                       </div>
-
-                  </main>
-
-              </div>
-
-                
-            </div>
-                
-                
-                
-
             </div>
 
-        
-        <script src="home.js"></script>
-        <script src="home-requests.js"></script>
+            <div class="modal fade"  id="confirm-playlist-delete" tabindex="-1" aria-hidden="true" aria-labelledby="confirm-delete" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <h3>Confirm Delete?</h3>
+                        <button data-bs-toggle="modal" data-bs-target="#playlist-modal" onclick="requests.deletePlayList()">Ok</button>
+                        <button data-bs-toggle="modal" data-bs-target="#playlist-modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- right container -->
+            <div class="right-container">
+                <div class="home-nav">
+                    <div id="home-btn">
+                        <i  onclick="goHome()" class="fa-solid fa-house"></i>
+                    </div>
+                    <div class="home-search-div">
+                        <input type="text" id="home-video-search-input">
+                        <button id="home-search-btn" onclick="requests.getHomeVideo()">Search</button>
+                    </div>
+                    <div>
+                        <button id="logout-btn" onclick="requests.logout();
+">Logout</button>
+                    </div>
+                </div>
+                <div class="home-main">
+                    <div class="home-results" >
+                        <div id="home-results">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-        
+        <script src="Scripts/home.js"></script>
+        <script src="Scripts/home-request.js"></script>
     </body>
 </html>

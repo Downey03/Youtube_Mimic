@@ -1,4 +1,4 @@
-package Bean;
+package Entity;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -8,9 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Builder
 @NoArgsConstructor
@@ -19,15 +16,13 @@ import java.util.List;
 public class User{
 
     @Id
-    String id;
+    String userId;
     @Index
     String userEmail;
     @Index
-    String name;
+    String userName;
     @Index
     String password;
 
-    @Index
-    List<String> playLists;
 
 }
