@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <script src="home-checkValid.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="global-styles.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="home-container">
+            
+            <div class="main-container">
+                <div class="left-content">
+                    <i class="fa-solid fa-bars" id="hamburger-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"></i>
+                    
+                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                        <div class="offcanvas-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+
+                          <div class="create-playlist-div">
+                            <input type="text" id="create-playlist" onkeyup="checkCreatePlayListInput()" name="playListName"><br>
+                            <button type="button"  onclick="createPlaylist()" id="create-playlist-btn">Create</button>
+                            
+                          </div>
+                          
+                          <div class="playlists" id="playlists" >
+                            
+                          </div>
+
+                          
+
+                        </div>
+                    </div>
+                    <div class="modal fade" id="playlist-content-modal" tabindex="-1" aria-labelledby="playlist-modal" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content" id="modal-content">
+                          <div class="videoSearch">
+                             <button id="delete-playlist">Delete Playlist</button>
+                             <input type="text" id="video-search">
+                             <button class="search-btn">search</button>
+                          </div>
+                          <div class="modal-body playlist-content-modal" id="playlist-items">
+                              
+                            
+                            
+                          </div>    
+                        </div>
+                         
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-content">
+                 
+                  <nav class="home-nav">
+                    <div class="hidden">
+
+                    </div>
+                    <div class="search-div">
+                      
+                      <input id="searchKeyword" name="searchKeyword" type="text">
+                      <button onclick="getVideoContent()" id="search-btn">Search</button>
+                    </div>
+                    <div class="logout-div">
+                      <button id="logout-btn" onclick="logout()">logout</button>
+                    </div>
+                          
+                  </nav>
+                  <main class="main-content">
+                      <div class="container" id="container">
+                          
+                        <div id="result-content">
+                          
+                        </div>
+                          <!-- <table id="result-table">
+                              
+                          </table> -->
+
+                       </div>
+
+                  </main>
+
+              </div>
+
+                
+            </div>
+                
+                
+                
+
+            </div>
+
+        
+        <script src="home.js"></script>
+        <script src="home-requests.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        
+    </body>
+</html>

@@ -1,12 +1,7 @@
 package DAO;
 
-import Bean.PlayList;
-import Bean.YTLink;
 import DTO.PlayListDTO;
 import DTO.UserDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface DAOInterface {
     PlayListDTO getVideos(String searchKeyword);
@@ -27,5 +22,5 @@ public interface DAOInterface {
 
     PlayListDTO removeItemFromPlayList(PlayListDTO playListDTO);
 
-    void deletePlayList(PlayListDTO playListDTO);
+    PlayListDTO deletePlayList(PlayListDTO playListDTO);
 }

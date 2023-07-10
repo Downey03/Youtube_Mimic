@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$/../.." dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/../../youtube_mimic_v2/src/main/java" isTestSource="false" />
+    </content>
+  </component>
+  <component name="AppEngineStandardGradleModuleComponent">
+    <option name="hasAppGradlePlugin" value="true" />
+    <option name="gradleBuildDir" value="$MODULE_DIR$/../../build" />
+    <option name="gradleModuleDir" value="$MODULE_DIR$/../.." />
+    <option name="webAppDir" value="src/main/webapp" />
+  </component>
+</module>
